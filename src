@@ -1,0 +1,53 @@
+import SimpleOpenNI.*;
+SimpleOpenNI kinect;
+int closestValue;
+int closestX;
+int closestY;
+void setup()
+{
+size(640*2,480);
+kinect = new SimpleOpenNI(this);
+kinect.enableDepth();
+kinect.enableRGB();
+}
+
+void draw()
+{
+closestValue = 8000;
+kinect.update();
+image(kinect.rgbImage(), 640, 0);
+
+//getting the depth arrayfrom the kinect
+int[] depthValues = kinect.depthMap();
+
+//getting down from row to row
+for( int y =0; y < 480 ; y++){
+
+//getting in to each pixel in a row
+for(int x = 0; x < 640; x++){
+
+//getting out the corresponding pixel value from the array
+int i = x+y*640;
+int currentDepthValue = depthValues[i];
+
+//to find the closest pixel , seen so far
+if(currentDepthValue > 0 && currentDepthValue < closestValue){
+
+//storing the closest pixel value
+closestValue = currentDepthValue;
+
+//storing the Xy coordinates 
+closestX = x;
+closestY = y;
+   }
+  }
+ }
+image(kinect.depthImage(), 0, 0);
+//darwing the blue circle over it
+fill(0,255, 0);
+
+//posiotioning the ellipse at our x-y coordinates, where the closest point saved
+ ellipse(closestX, closestY, 25, 25);
+}
+
+http://www.youtube.com/watch?feature=player_embedded&v=mzHe0CqaPAM
