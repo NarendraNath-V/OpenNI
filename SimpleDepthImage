@@ -1,0 +1,27 @@
+import SimpleOpenNI.*;
+SimpleOpenNI kinect;
+
+void setup()
+{
+// kinect always takes 640 width & 480height
+//640*2 is one for depth image and another for rgb image
+  size(640*2,480);
+kinect = new SimpleOpenNI(this);
+//enabling the camera of kinect
+kinect.enableDepth();
+kinect.enableRGB();
+
+}
+
+void draw()
+{
+//updating all the time with new frames  
+kinect.update();
+//updating both depth and rgb
+//starting image from (0,0) from top most left top corner
+image(kinect.depthImage(),0,0);
+//starting image from (640,0) after 640 pixels most corner
+image(kinect.rgbImage(), 640, 0);
+}
+
+output is on :: http://www.youtube.com/watch?v=EmBm8d5buGc&feature=youtu.be
